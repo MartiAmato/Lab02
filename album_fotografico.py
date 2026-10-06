@@ -31,6 +31,7 @@ def carica_da_file(file_path):
         return album
     except FileNotFoundError:
         return None
+
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
     """Aggiunge una foto all'album, creando l'anno al volo se non è ancora presente"""
     if mese < 1 or mese > 12:
@@ -43,6 +44,8 @@ def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
 
     if not os.path.exists(file_path):
         return None
+
+
     nuova_foto = {
         "codice": codice,
         "titolo": titolo,
@@ -50,6 +53,7 @@ def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
         "mese": mese,
         "anno": anno
     }
+
     try:
         with open(file_path, 'a', encoding="utf-8") as f:
             f.write(f"\n{codice},{titolo},{autore},{mese},{anno}")
@@ -71,12 +75,14 @@ def cerca_foto(album, codice):
 
 def elenco_foto_anno_per_titolo(album, anno):
     """Ordina i titoli delle foto di un dato anno in ordine alfabetico"""
-    if anno not in album or not album[anno]:
+    if anno not in album:
             return None
-    titoli = [foto['titolo'] for foto in album[anno]]
+
+    titoli = []
+    for foto in album[anno]:
+        titoli.append(foto['titolo'])
 
     titoli.sort()
-
     return titoli
 
 
